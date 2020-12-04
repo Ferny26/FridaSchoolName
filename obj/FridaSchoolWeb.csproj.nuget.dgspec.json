@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/FridaSchoolWeb.csproj": {}
+  },
+  "projects": {
+    "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/FridaSchoolWeb.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/FridaSchoolWeb.csproj",
+        "projectName": "FridaSchoolWeb",
+        "projectPath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/FridaSchoolWeb.csproj",
+        "packagesPath": "/Users/fernandajimenez/.nuget/packages/",
+        "outputPath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/fernandajimenez/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[3.1.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[3.1.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.401/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

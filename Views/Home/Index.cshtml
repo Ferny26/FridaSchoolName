@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    @{
+    if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-primary" role="alert">
+        @ViewBag.Message
+        </div>
+    }
+    }
+<div class="text-center">
+    <h1>Welcome to Frida School </h1>
+    <img src="https://miro.medium.com/max/830/1*_dOuq3fTWjxT2_XVOTioRg.png" alt="" width="300px" height="350px">
+   
+    <div class="card box-shadow">
+    <h5 class="card-header">Log In</h5>
+    <div class="card-body">
+    <form asp-action="Login" method="post">
+    <div class="form-group">
+        <label for="roster">User</label>
+        <input type="text" class="form-control" name="roster">
+    </div>
+    <div class="form-group">
+        <label for="pasword">Password</label>
+        <input type="password" class="form-control" name="password">
+    </div>
+    <button class="btn btn-primary">Go</button>
+    </form>
+    </div>
+    </div>
+    </div>
+</div>

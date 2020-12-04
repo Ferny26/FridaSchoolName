@@ -1,0 +1,106 @@
+@model Teacher
+@{
+    ViewData["Title"] = "Profile";
+    ViewBag.UserName = $"{@Model.Names} {@Model.MiddleName}";
+    Layout ="_Layout";
+}
+    <partial name="_LayoutAccount" />
+
+    <div class="view">
+        <div style="text-align: center; display: block; margin: auto;">
+            @{
+            if (@Model.Gender =='F')
+            {
+                <img src="https://toppng.com/uploads/preview/erson-icon-black-female-user-icon-11562985556wqtga6z7zf.png" width="300px" height="300px" alt="">
+            }else{
+                <img src="https://cdn3.iconfinder.com/data/icons/users/100/user_male_1-512.png" width="300px" height="300px" alt="">
+            }
+            }
+            <form class="form" style="text-align: center; width: 400px; display: block; margin: auto;" >
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="names"><h4>Name(s)</h4></label>
+                                <input disabled type="text" class="form-control" name="names" value="@Model.Names">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                              <label for="middleName"><h4>Middle name</h4></label>
+                                <input disabled type="text" class="form-control" name="middleName" value="@Model.MiddleName">
+                            </div>
+                        </div>
+            
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="lastName"><h4>LastName</h4></label>
+                                <input disabled type="text" class="form-control" name="lastName" value="@Model.LastName">
+                            </div>
+                        </div>
+            
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                               <label for="birthDate"><h4>BirthDate</h4></label>
+                                <input disabled type="text" class="form-control" name="birthDate" value="@Model.BirthDate.ToString("dd-MMMM-yyyy")">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="rfc"><h4>RFC</h4></label>
+                                <input disabled type="text" class="form-control" name="rfc" value="@Model.RFC">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="curp"><h4>CURP</h4></label>
+                                <input disabled type="text" class="form-control" name="curp" value="@Model.CURP">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="col-xs-6">
+                                <label for="age"><h4>Age</h4></label>
+                                <input disabled type="text" class="form-control" name="age" value="@Model.Age">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4>Gender</h4>
+                            <div class="row">
+                            <div class="col-xs-6">
+                                
+                                @{
+                                if (@Model.Gender == 'H')
+                                {
+                                    <div class="form-check">
+                                    <input disabled type="radio" class="form-check-input"  name="h" checked>
+                                    <label class="form-check-label" for="h"><h4>H</h4></label>
+                                    </div>
+                                    <div class="form-check">
+                                    <input disabled type="radio" class="form-check-input"  name="m">
+                                    <label class="form-check-label" for="m"><h4>M</h4></label>
+                                    </div>
+                                }else{
+                                    <div class="form-check">
+                                    <input disabled type="radio" class="form-check-input"  name="h" >
+                                    <label class="form-check-label" for="h"><h4>H</h4></label>
+                                    </div>
+                                    <div class="form-check">
+                                    <input disabled type="radio" class="form-check-input"  name="m" checked>
+                                    <label class="form-check-label" for="m"><h4>M</h4></label>
+                                    </div>
+                                }
+                            }
+                            </div>
+                            </div>
+                        </div>
+                 </form>      
+        </div>
+         
+
+    </div>
+
+
+
