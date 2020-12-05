@@ -5,22 +5,29 @@ namespace FridaSchoolWeb.Models
 {
     public class Teacher 
     {
-        protected int _Id;
-        protected string _names, _middleName, _lastName, _password, _curp, _rfc;
-        protected DateTime _birthDate;
+        public int Age => DateTime.Now.Year - BirthDate.Year;  
+        public int ID{get; set;}
+        public string Names{get; set;}
+        public DateTime BirthDate{get;set;}
+        public string MiddleName{get; set;}
+        public string LastName{get; set;}
+        public string Password{get; set;}
+        public string CURP{get; set;}
+        public string RFC{get; set;}
+        public char Gender{get; set;}
+        public bool IsBase{get; set;}
+        public string Roaster{get; set;}
         protected const sbyte CordinatorHours = 10, BaseHours = 30, AsignatureHours=24;
-        protected char _gender;
-        protected bool _isBase;
 
         public Teacher(){}
 
         public Teacher(String[] information){
-            _names = information[0];
-            _middleName = information[1];
-            _lastName = information[2];
-            _birthDate = DateTime.Parse(information[3]);
-            _gender = Convert.ToChar(information[4]);
-            _password = information[5];
+            Names = information[0];
+            MiddleName = information[1];
+            LastName = information[2];
+            BirthDate = DateTime.Parse(information[3]);
+            Gender = Convert.ToChar(information[4]);
+            Password = information[5];
             //AssignedHours = 0;
             //AssignedGroups = 0;
             KeysGenerator();
@@ -34,20 +41,6 @@ namespace FridaSchoolWeb.Models
                 return AsignatureHours;
             }
         }
-
-        public int Age => DateTime.Now.Year - BirthDate.Year;  
-        public int ID{get; set;}
-        public string Names{get; set;}
-        public DateTime BirthDate{get;set;}
-        public string MiddleName{get; set;}
-        public string LastName{get; set;}
-        public string Password{get; set;}
-        public string CURP{get; set;}
-        public string RFC{get; set;}
-        public char Gender{get; set;}
-        public bool IsBase{get; set;}
-        public string Roaster{get; set;}
-      
 
          #region CURP and RFC
             /// <summary>
