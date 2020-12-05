@@ -27,7 +27,7 @@ namespace FridaSchoolWeb.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult Login(string roster, string password){
             if (ModelState.IsValid)
             {
