@@ -1186,19 +1186,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/fernadomicheljimenezvelez/.nuget/packages/": {}
+    "/Users/fernandajimenez/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/FridaSchoolWeb.csproj",
+      "projectUniqueName": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/FridaSchoolWeb.csproj",
       "projectName": "FridaSchoolWeb",
-      "projectPath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/FridaSchoolWeb.csproj",
-      "packagesPath": "/Users/fernadomicheljimenezvelez/.nuget/packages/",
-      "outputPath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/obj/",
+      "projectPath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/FridaSchoolWeb.csproj",
+      "packagesPath": "/Users/fernandajimenez/.nuget/packages/",
+      "outputPath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/fernadomicheljimenezvelez/.nuget/NuGet/NuGet.Config"
+        "/Users/fernandajimenez/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -1247,7 +1247,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.403/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.401/RuntimeIdentifierGraph.json"
       }
     }
   }

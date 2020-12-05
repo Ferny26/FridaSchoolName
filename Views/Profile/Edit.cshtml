@@ -1,0 +1,61 @@
+@model Teacher
+@{
+    ViewData["Title"] = "Profile";
+    Layout ="_Layout";
+}
+    <partial name="_LayoutAccount" />
+    <div class="view">
+
+    
+    <h4>Edit information</h4>
+
+    <form asp-action="Edit" method="post">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="names">Name(s)</label>
+      <input type="text" class="form-control" name="names" value="@Model.Names" required>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="middleName">MiddleName</label>
+      <input  type="text" class="form-control" name="middleName" value="@Model.MiddleName" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="lastName">LastName</label>
+    <input type="text" class="form-control" name="lastName" value="@Model.LastName" required>
+  </div>
+  <div class="form-group">
+    <label for="birthDate">BirthDate</label>
+    <input type="date" class="form-control" name="birthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")" required>
+  </div>
+@{
+    if(@Model.Gender == 'H'){
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="genre" id="inlineRadio1" value="H" checked>
+            <label class="form-check-label" for="inlineRadio1">H</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="genre" id="inlineRadio2" value="M">
+            <label class="form-check-label" for="inlineRadio2">M</label>
+        </div>
+    }else{
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="genre" id="inlineRadio1" value="H" >
+            <label class="form-check-label" for="inlineRadio1">H</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="genre" id="inlineRadio2" value="M" checked>
+            <label class="form-check-label" for="inlineRadio2">M</label>
+        </div>
+    }
+}
+  
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+    </div>
+    
+
+   
+
+
+

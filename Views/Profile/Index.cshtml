@@ -1,31 +1,40 @@
-@model Teacher
+@model Teacher;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @{
     ViewData["Title"] = "Profile";
-    ViewBag.UserName = $"{@Model.Names} {@Model.MiddleName}";
     Layout ="_Layout";
 }
     <partial name="_LayoutAccount" />
 
     <div class="view">
-            <div class="row">
-            @{
-            if (@Model.Gender =='M')
-            {
-                <img src="https://toppng.com/uploads/preview/erson-icon-black-female-user-icon-11562985556wqtga6z7zf.png" width="200px" height="200px" alt="">
-            }else{
-                <img src="https://cdn3.iconfinder.com/data/icons/users/100/user_male_1-512.png" width="200px" height="200px" alt="">
-            }
-            <h5>@Model.Names @Model.MiddleName @Model.LastName</h5>
-            if (@Model.GetHours() == 10)
-            {
-                <h4>Cordinator</h4>
-            }else{
-                <h4>Teacher</h4>
-            }
-            }
+        <div class="row">
+            <div class="col-md-2">
+                 <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" width="200px" height="200px" alt="">
             </div>
+            <div class="col-md-5 profile-header" style="margin-top: auto; margin-bottom: auto">
+                <h2>@Model.Names @Model.MiddleName @Model.LastName</h2>
+                @{
+                    if(HttpContextAccessor.HttpContext.User.IsInRole("Cordinator")){
+                        <h4>Cordinator</h4>
+                    }else{
+                        <h4>Teacher</h4>
+                    }
+                }
+            </div>
+            <div class="col-md-4" style="margin-top: auto; margin-bottom: auto">
+                <a type="button" class="btn btn-primary btn-sm" href="/Profile/Edit">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                    </svg>
+                    Edit information</a>
+
+            </div>
+        </div>
+        <hr>
+        <hr>
+        <div style="font-size: 20px;">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label>BirthDate</label>
                 </div>
                 <div class="col-md-6">
@@ -33,7 +42,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label>RFC</label>
                 </div>
                 <div class="col-md-6">
@@ -41,7 +50,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label>CURP</label>
                 </div>
                 <div class="col-md-6">
@@ -49,17 +58,22 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label>Gender</label>
                 </div>
                 <div class="col-md-6">
                     <p>@Model.Gender</p>
                 </div>
-            </div>
-                        
-         
-
+            </div>   
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Age</label>
+                </div>
+                <div class="col-md-6">
+                    <p>@Model.Age</p>
+                </div>
+            </div>        
+        </div>
     </div>
 
-
-
+       

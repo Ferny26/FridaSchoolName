@@ -26,9 +26,8 @@ namespace FridaSchoolWeb.Models
             KeysGenerator();
         }
 
-        public virtual sbyte GetHours()
-        {
-            if (_isBase)
+        public virtual sbyte GetHours(){
+            if (IsBase)
             {
                 return BaseHours;
             }else{
@@ -56,17 +55,18 @@ namespace FridaSchoolWeb.Models
             /// </summary>
             public void CURPGenerator()
             {
+                CURP = string.Empty;
                 #region Full name preparation
-                    string names = FilterBaseNames(_names);
-                    string middleName = FilterBaseNames(_middleName);
-                    string lastName = FilterBaseNames(_lastName);     
+                    string names = FilterBaseNames(Names);
+                    string middleName = FilterBaseNames(MiddleName);
+                    string lastName = FilterBaseNames(LastName);     
                 #endregion 
                 //Words array that can't be appeared in the CURP or RFC for the first 4 letters
                 string [] swearWords = {"BACA","BAKA","BUEI","BUEY","CACA","CACO","CAGA","CAGO","CAKA","CAKO","COGE","COGI","COJA","COJE","COJI","COJO","COLA","CULO","FALO","FETO","GETA","GUEI","GUEY","JETA","JOTO","KACA","KACO","KAGA","KAGO","KAKA","KAKO","KOGE","KOGI","KOJA","KOJE","KOJI","KOJO","KOLA","KULO","LILO",
                 "LOCA","LOCO","LOKA","LOKO","MAME","MAMO","MEAR","MEAS","MEON","MIAR","MION","MOCO","MOKO","MULA","MULO","NACA","NACO","PEDA","PEDO","PENE","PIPI","PITO","POPO","PUTA","PUTO","QULO","RATA","ROBA","ROBE","ROBO","RUIN","SENO","TETA","VACA","VAGA","VAGO","VAKA","VUEI","VUEY","WUEI","WEY"};  
                 #region Character 1
                     //Take the first letter of the middle name, if it's a 'Ñ', will be replace for a 'X'
-                    _curp += middleName[0] == 'Ñ' ? 'X' : middleName[0];     
+                    CURP += middleName[0] == 'Ñ' ? 'X' : middleName[0];     
                 #endregion
                 #region Character 2
                     //Take the first middlename vowel
@@ -74,55 +74,55 @@ namespace FridaSchoolWeb.Models
                     {
                         if(item == 'A' || item == 'E' || item == 'I' || item == 'O' || item == 'U')
                         {
-                            _curp += item;
+                            CURP += item;
                             break;
                         }
                     }  
                 #endregion
                 #region Character 3
                     //Take the first letter of the lastname, if it's a 'Ñ', will be replace for a 'X'
-                    _curp += lastName[0] == 'Ñ' ? 'X' : lastName[0]; 
+                    CURP += lastName[0] == 'Ñ' ? 'X' : lastName[0]; 
                 #endregion
 
                 #region Character 4
                     //Take the first letter of the names, if it's a 'Ñ', will be replace for a 'X'
-                    _curp += names[0] == 'Ñ' ? 'X' : names[0]; 
+                    CURP += names[0] == 'Ñ' ? 'X' : names[0]; 
                 #endregion
 
                 #region Verification of the frist 4 characters 
                     //Check if the string doesn't form a swear word in the array
-                    if (swearWords.Contains(_curp))
+                    if (swearWords.Contains(CURP))
                     {
                         //If yes, the first vowel is replace for a 'X'
-                        _curp = _curp[0] + 'X' + _curp.Substring(2,2);  
+                        CURP = CURP[0] + 'X' + CURP.Substring(2,2);  
                     }  
                 #endregion
                 #region Characters 5 to 11
                     //Take the year, month and day of birthday to 2 digits
-                    _curp += $"{_birthDate:yy}{_birthDate:MM}{_birthDate:dd}";
+                    CURP += $"{BirthDate:yy}{BirthDate:MM}{BirthDate:dd}";
                 #endregion
                 #region Character 12
                     //Concat the person gender 
-                    _curp += _gender;
+                    CURP += Gender;
                 #endregion
                 #region Character 13
                     //Concat the identifiers for the Jalisco state 
-                    _curp += "JC";
+                    CURP += "JC";
                 #endregion
                 #region Character 14 to 16
                     //Take the consonant in each case, without taking the first letter 
-                    _curp += Consonant(_middleName.Substring(1));
-                    _curp += Consonant(_lastName.Substring(1));
-                    _curp += Consonant(_names.Substring(1));        
+                    CURP += Consonant(middleName.Substring(1));
+                    CURP += Consonant(LastName.Substring(1));
+                    CURP += Consonant(Names.Substring(1));        
                 #endregion
                 #region Character 17
                     //If the year of birthday is lees than 2000, cancat a 0, else, concat an A
-                    _curp += _birthDate.Year < 2000 ? '0' : 'A';   
+                    CURP += BirthDate.Year < 2000 ? '0' : 'A';   
                 #endregion
                 #region Caracter 18
                     //This digit is calculated from the sum of the multiplication of each value digit with their position
                     int amount = 0, counter = 18;
-                    foreach (char item in _curp)
+                    foreach (char item in CURP)
                     {
                         //If digit is a letter, the counter is multiplied for the value in ascii minus 55
                         //Else the digit is a number, it is multiplied for the counter
@@ -132,21 +132,21 @@ namespace FridaSchoolWeb.Models
                     //After that follow the next formula 
                     amount = 10 - (amount % 10); 
                     //If the result is a 10, it was replace for a 0
-                    _curp += amount == 10 ? 0 : amount; 
+                    CURP += amount == 10 ? 0 : amount; 
                 #endregion
             }
             public  void KeysGenerator()
             {
                 CURPGenerator();
                 //Take the base characaters for the RFC
-                _rfc = _curp.Substring(0,10);
+                RFC = CURP.Substring(0,10);
                 //The next characters represent a homonymous key
                 #region Character 11 and 12
                     //Variables
                     string numbers = string.Empty;
                     int amount = 0, residue = 0;
                     #region Letters values
-                    string Data = string.Concat(_middleName," ",_lastName," ",_names);
+                    string Data = string.Concat(MiddleName," ",LastName," ",Names);
                     //Take the each value that the letter represent acording from a stablished table and concat each value
                     foreach (char item in Data)
                     {
@@ -169,8 +169,8 @@ namespace FridaSchoolWeb.Models
                         residue = amount % 34;
                         amount = amount / 34;
                         //with the funtion concat the letters
-                        _rfc += HomonymousDigits(amount);
-                        _rfc += HomonymousDigits(residue); 
+                        RFC += HomonymousDigits(amount);
+                        RFC += HomonymousDigits(residue); 
                         
                     #endregion
                     #endregion
@@ -178,7 +178,7 @@ namespace FridaSchoolWeb.Models
                         int digit = 0, counter = 13;
 
                         //Calculate the last digit from the sum of the multiplication of each value digit their position 
-                        foreach (char item in _rfc)
+                        foreach (char item in RFC)
                         {
                             digit += (char) ((item >= 65 && item <= 90) ? (item > 78 ? (counter * (item - 54)) : (counter * (item - 55))) : (counter * (item - 48)));
                             counter --;
@@ -186,7 +186,7 @@ namespace FridaSchoolWeb.Models
                         //After that follow the next formula
                         digit = digit % 11; 
                         //Depending of the amount, asigns the correspond digit
-                        _rfc += digit == 0 ? "0" : digit == 10 ? "A" : (11-digit).ToString();     
+                        RFC += digit == 0 ? "0" : digit == 10 ? "A" : (11-digit).ToString();     
                     #endregion    
                 }
                 /// <summary>

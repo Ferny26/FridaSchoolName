@@ -12,7 +12,6 @@ namespace FridaSchoolWeb.Controllers
     {
         private readonly ILogger<ProfileController> _logger;
         FridaSchool db;
-        Teacher teacher;
 
         public ProfileController(ILogger<ProfileController> logger, FridaSchool injectedContext)
         {
@@ -20,13 +19,34 @@ namespace FridaSchoolWeb.Controllers
             db = injectedContext;
             
         }
-
-        public IActionResult Index( Teacher user)
+        
+        public IActionResult Index()
         {
-            teacher = user;
+            string roster = ControllerContext.HttpContext.User.Identity.Name;
+            Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
             return View(teacher);
         }
 
+        public IActionResult Edit(){
+            string roster = ControllerContext.HttpContext.User.Identity.Name;
+            Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
+            return View(teacher);
+        }
 
+        [HttpPost]
+        public IActionResult Edit(string names, string middleName, string lastName, string birthDate, string genre){
+            string roster = ControllerContext.HttpContext.User.Identity.Name;
+            Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
+            teacher.Names = names.ToUpper();
+            teacher.MiddleName = middleName.ToUpper();
+            teacher.LastName = lastName.ToUpper();
+            teacher.BirthDate = DateTime.Parse(birthDate);
+            teacher.Gender = genre[0];
+            teacher.KeysGenerator();
+            db.Teachers.Update(teacher);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Profile");
+        }
     }
+
 }

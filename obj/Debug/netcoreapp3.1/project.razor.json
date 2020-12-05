@@ -1,5 +1,5 @@
 {
-  "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/FridaSchoolWeb.csproj",
+  "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/FridaSchoolWeb.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14392,48 +14392,73 @@
   "RootNamespace": "FridaSchoolWeb",
   "Documents": [
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/_ViewStart.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/_ViewImports.cshtml",
-      "TargetPath": "Views\\_ViewImports.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Groups/Index.cshtml",
+      "TargetPath": "Views\\Groups\\Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/Shared/Error.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Shared/Error.cshtml",
       "TargetPath": "Views\\Shared\\Error.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/Home/Index.cshtml",
-      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Home/Privacy.cshtml",
+      "TargetPath": "Views\\Home\\Privacy.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/Profile/Index.cshtml",
-      "TargetPath": "Views\\Profile\\Index.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Profile/Edit.cshtml",
+      "TargetPath": "Views\\Profile\\Edit.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/Shared/_LayoutAccount.cshtml",
-      "TargetPath": "Views\\Shared\\_LayoutAccount.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/Shared/_Layout.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Shared/_Layout.cshtml",
       "TargetPath": "Views\\Shared\\_Layout.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/Shared/_ValidationScriptsPartial.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Subjects/Index.cshtml",
+      "TargetPath": "Views\\Subjects\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Home/Index.cshtml",
+      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Shared/_ValidationScriptsPartial.cshtml",
       "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/Views/Home/Privacy.cshtml",
-      "TargetPath": "Views\\Home\\Privacy.cshtml",
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Profile/Index.cshtml",
+      "TargetPath": "Views\\Profile\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Sort/Index.cshtml",
+      "TargetPath": "Views\\Sort\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Shared/_LoginPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_LoginPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/_ViewImports.cshtml",
+      "TargetPath": "Views\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/Views/Shared/_LayoutAccount.cshtml",
+      "TargetPath": "Views\\Shared\\_LayoutAccount.cshtml",
       "FileKind": "mvc"
     }
   ],

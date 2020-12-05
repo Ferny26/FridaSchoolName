@@ -9,7 +9,6 @@ namespace FridaSchoolWeb.Models
     public class FridaSchool : DbContext
     {
         public DbSet<Teacher> Teachers { get; set; } 
-        //public DbSet<Group> Groups { get; set; } 
 
         public FridaSchool(DbContextOptions<FridaSchool> options)
             : base(options)
@@ -49,6 +48,12 @@ namespace FridaSchoolWeb.Models
             .Property(c => c.Gender)
             .IsRequired()
             .HasMaxLength(1);
+            modelBuilder.Entity<Teacher>()
+            .HasDiscriminator<string>("Type")
+            .HasValue<Teacher>("teacher")
+            .HasValue<Cordinator>("cordinator");
+            modelBuilder.Entity<Cordinator>().HasBaseType<Teacher>();
+
 
         }
 
