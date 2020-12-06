@@ -27,6 +27,10 @@ namespace FridaSchoolWeb.Controllers
             return View(teacher);
         }
 
+        /// <summary>
+        /// Return the view to show the user information to edit
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Edit(){
             string roster = ControllerContext.HttpContext.User.Identity.Name;
             Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
@@ -34,6 +38,15 @@ namespace FridaSchoolWeb.Controllers
         }
 
         [HttpPost]
+        /// <summary>
+        /// Allow the user edit some field and save the changes
+        /// </summary>
+        /// <param name="names">teacher name</param>
+        /// <param name="middleName">tecaher middlename</param>
+        /// <param name="lastName">teacher lastname</param>
+        /// <param name="birthDate">teacher birthdate</param>
+        /// <param name="genre">teacher genre</param>
+        /// <returns></returns>
         public IActionResult Edit(string names, string middleName, string lastName, string birthDate, string genre){
             string roster = ControllerContext.HttpContext.User.Identity.Name;
             Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
@@ -42,6 +55,7 @@ namespace FridaSchoolWeb.Controllers
             teacher.LastName = lastName.ToUpper();
             teacher.BirthDate = DateTime.Parse(birthDate);
             teacher.Gender = genre[0];
+            //After put the information generate again the keys
             teacher.KeysGenerator();
             db.Teachers.Update(teacher);
             db.SaveChanges();

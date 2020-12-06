@@ -27,9 +27,11 @@ namespace FridaSchoolWeb.Controllers
             db = injectedContext;
         }
 
+        
         public async Task<ActionResult> Index(string message)
         {
             ViewBag.Message = message;
+            //If there's no a saved user go to logout
             if (ControllerContext.HttpContext.User.Identity.Name != null)
             {
                 await Logout();
@@ -38,12 +40,20 @@ namespace FridaSchoolWeb.Controllers
         }
 
         [HttpPost]
+        /// <summary>
+        /// Verify a user login and generate the corresponded cookies 
+        /// </summary>
+        /// <param name="roster">username</param>
+        /// <param name="password">password</param>
+        /// <returns></returns>
         public async Task<ActionResult> Login(string roster, string password){
             if (ModelState.IsValid)
             {
                 if(!string.IsNullOrEmpty(roster) && !string.IsNullOrEmpty(password)){
+                    //Especial user
                     if (roster == "0000" && password == "admin")
                     {
+                        //Generate the cookies and save the user data
                         var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, roster),
@@ -58,13 +68,16 @@ namespace FridaSchoolWeb.Controllers
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
                         return RedirectToAction("Index","Admin");
                     }else{
+                        //Verify if the user exist in the database 
                     teacher = db.Teachers.FirstOrDefault(p => p.Roaster == roster && p.Password == Encrypt(password));
                     if (teacher != null)
                     {
                         string role = "Teacher";
+                        //Assign a role
                         if(teacher.GetHours() == 10){
                             role = "Cordinator";
                         } 
+                        //Generate the cookies to authentication and save the tecaher information
                         var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, teacher.Roaster),
@@ -94,6 +107,12 @@ namespace FridaSchoolWeb.Controllers
 
         }
 
+        /// <summary>
+        /// Encrypt the user password to verify in the database
+        /// </summary>
+        /// <param name="password">the user input</param>
+        /// <returns></returns>
+
          private string Encrypt(string password){
             using (SHA256 sha256Hash = SHA256.Create()){
                 byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
@@ -111,6 +130,10 @@ namespace FridaSchoolWeb.Controllers
         }
 
         [HttpGet]
+        /// <summary>
+        /// Clean the session and redirect to home page 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Logout(){
             await HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);

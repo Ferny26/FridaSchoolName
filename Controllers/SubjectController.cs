@@ -25,17 +25,24 @@ namespace FridaSchoolWeb.Controllers
             db = injectedContext;
         }
 
+        /// <summary>
+        /// Show the subjects that the user selected and al subjects that user doesn't has
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns>The view with the user subjects</returns>
         public IActionResult MySubjects(string message)
         {
             int id = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
             List<AsignaturePerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == id).ToList();
             SubjectsList subjects = new SubjectsList();
+            //Take the selected subjects
             foreach (var item in mySubjects)
             {
                 subjects.SubjectsPerTeacher.Add(db.Subjects.First(x => x.ID == item.ID_Subject));
             }
             List<Subject> allSubjects = db.Subjects.ToList();
             Erased:
+            //Take the avaiable subjects
             foreach (var item in allSubjects)
             {
                 foreach (var item2 in subjects.SubjectsPerTeacher)
@@ -49,6 +56,12 @@ namespace FridaSchoolWeb.Controllers
             subjects.SubjectsAvaiable = allSubjects;
             return View(subjects);
         }
+
+        /// <summary>
+        /// Add one subject to teacher list asignatures
+        /// </summary>
+        /// <param name="id">the teacher id</param>
+        /// <returns>the view with the user subjects</returns>
         public IActionResult AddSubject(int id){
             int idUser = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
             AsignaturePerTeacher asignatureRegister = new AsignaturePerTeacher{
@@ -59,6 +72,12 @@ namespace FridaSchoolWeb.Controllers
             db.SaveChanges();
             return RedirectToAction("MySubjects");
         }
+
+        /// <summary>
+        /// Allows to remove a subject of the teacher subjects list 
+        /// </summary>
+        /// <param name="id">the teacher id</param>
+        /// <returns></returns>
         public IActionResult RemoveSubject(int id){
             int idUser = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
             AsignaturePerTeacher asignatureRegister = db.AsignaturesPerTeacher.First(a => a.ID_Teacher == idUser && a.ID_Subject == id);
@@ -67,6 +86,11 @@ namespace FridaSchoolWeb.Controllers
             return RedirectToAction("MySubjects");
         }
 
+        /// <summary>
+        /// Show all the subjects that the school has
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns>The view with all subjects</returns>
         public IActionResult Subjects(string message)
         {
             IQueryable<Subject> Subjects = db.Subjects;
@@ -74,10 +98,20 @@ namespace FridaSchoolWeb.Controllers
         }
 
         [HttpPost]
+
+        /// <summary>
+        /// Allows edit a specific subject 
+        /// </summary>
+        /// <param name="id">id subject</param>
+        /// <param name="name">name subject</param>
+        /// <param name="theoryH">theory hours subject</param>
+        /// <param name="practiceH">practice hours subject</param>
+        /// <returns></returns>
         public IActionResult EditSubject(int id, string name, string theoryH, string practiceH)
         {
             sbyte theoryHours = sbyte.Parse(theoryH);
             sbyte practiceHours = sbyte.Parse(practiceH);
+            //Verify if the hours are correct
             if((theoryHours + practiceHours) < 7 && (theoryHours + practiceHours) >0){
                 Subject subject = db.Subjects.First(s => s.ID == id);
                 subject.Name = name.ToUpper();
@@ -91,6 +125,11 @@ namespace FridaSchoolWeb.Controllers
             return RedirectToAction("Subjects");
         }
 
+        /// <summary>
+        /// Delete one subject 
+        /// </summary>
+        /// <param name="id">subject id to delete</param>
+        /// <returns></returns>
         public IActionResult Delete(int id){
             Subject subject = db.Subjects.First(s => s.ID == id); 
             db.Subjects.Remove(subject);
@@ -99,11 +138,18 @@ namespace FridaSchoolWeb.Controllers
         }
 
 
-
+        /// <summary>
+        /// Allows create a new subject
+        /// </summary>
+        /// <param name="id">id subject</param>
+        /// <param name="name">name subject</param>
+        /// <param name="theoryH">theory hours subject</param>
+        /// <param name="practiceH">practice hours subject</param>
+        /// <returns></returns>
         public IActionResult Create(string name, string theoryH, string practiceH){
             sbyte theoryHours = sbyte.Parse(theoryH);
             sbyte practiceHours = sbyte.Parse(practiceH);
-
+            //Verify if the hors are correct
             if((theoryHours + practiceHours) < 7 && (theoryHours + practiceHours) >0){
                 Subject subject = new Subject{
                     Name = name.ToUpper(),

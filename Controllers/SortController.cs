@@ -24,10 +24,17 @@ namespace FridaSchoolWeb.Controllers
             _logger = logger;
             db = injectedContext;
         }
+
+        /// <summary>
+        /// Show the view with the sort 
+        /// </summary>
+        /// <param name="message">if some was wrong send a message with the error</param>
+        /// <returns>The view with the sort data</returns>
         public ActionResult Index(string message){
             ViewBag.message = message;
             if (!String.IsNullOrEmpty(message))
             {
+                //If there's a message, truncate the table
                 var all = from c in db.Sort select c;
                 db.Sort.RemoveRange(all);
                 db.SaveChanges();
@@ -36,6 +43,7 @@ namespace FridaSchoolWeb.Controllers
             {
                 IQueryable<Sort> sort = db.Sort;
                 List<SortDetails> sortDetails = new List<SortDetails>();
+                //Take a list with the teachers, subjects and groups
                 foreach (var item in sort)
                 {
                     Teacher teacher = db.Teachers.First(x => x.ID == item.ID_Teacher);
@@ -52,8 +60,13 @@ namespace FridaSchoolWeb.Controllers
             
         }
 
+        /// <summary>
+        /// Generate the sort for the groups, teachers and subjects 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GenerateSort()
         {
+            //Clean the sort table 
             #region Clean
                 var all = from c in db.Sort select c;
                 db.Sort.RemoveRange(all);
@@ -73,16 +86,20 @@ namespace FridaSchoolWeb.Controllers
                     item.subjects = asignatures.Count();
                 }
             #endregion
+            //Check if there's some groups
             if (groups != null )
             {
                 foreach (var item in groups)
                 {
+                    //Verify if the group has subjects
                     IQueryable<GroupSubjects> groupsSubject = db.GroupSubjects.Where(s => s.ID_Group == item.ID);
                     if (groupsSubject != null)
                     {
+                        //Take the group subjects list
                         subjects = db.Subjects.Where(x => groupsSubject.Any(y => y.ID_Subject == x.ID));
                         foreach (var item2 in subjects)
                         {
+                            //Take the teachers that can teach the subject order and take the best option
                             IQueryable<AsignaturePerTeacher> teachersAvaiables = db.AsignaturesPerTeacher.Where(a => a.ID_Subject == item2.ID);
                             List<Teacher> teachersLRC = teachers.Where(x => teachersAvaiables.Any(y => y.ID_Teacher == x.ID)).ToList();
                             teachersLRC = teachersLRC.Where(x => (x.assignedHours + item2.GetTotalHours()) <= x.GetHours()  && x.assignedGroups < 5 ).ToList();
@@ -91,7 +108,7 @@ namespace FridaSchoolWeb.Controllers
                             .ToList();
                             if (teachersLRC.Count != 0)
                             {
-                                //Take the best option
+                                //If there's some avaible teacher create the row to sort with all information
                                 Teacher teacher = teachersLRC[0];
                                 teacher.assignedGroups = (sbyte)(teacher.assignedGroups + 1);
                                 teacher.assignedHours = (sbyte) (teacher.assignedHours + item2.GetTotalHours());
@@ -112,6 +129,7 @@ namespace FridaSchoolWeb.Controllers
                         return RedirectToAction("Index", new {message = "One or more groups doesn't have subjects"});
                     }
                 }
+                    //Finally verify if the all teachers have the minimun hours  
                     var teachersCounter = teachers.Where(x => x.assignedHours >= x.GetHours()/2).ToList();
                     //Verify if the teacher have the minimun hours 
                     if (teachersCounter.Count() == teachers.Count())
