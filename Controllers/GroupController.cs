@@ -76,6 +76,26 @@ namespace FridaSchoolWeb.Controllers
                 db.SaveChanges();
             return RedirectToAction("Groups","Group");
         }
+        public IActionResult Group(int id){
+            Group group = db.Groups.First(g => g.ID == id);
+            return View(group);
+        }
+
+        public IActionResult AddSubject(int id, int idGroup){
+            Sort asignatureRegister = new Sort{
+                ID_Subject = id,
+                ID_Group = idGroup
+            };
+            db.Sort.Add(asignatureRegister);
+            db.SaveChanges();
+            return RedirectToAction("Group",idGroup);
+        }
+        public IActionResult RemoveSubject(int id, int idGroup){
+            Sort asignatureRegister = db.Sort.First(a => a.ID_Subject == id && a.ID_Group == idGroup);
+            db.Sort.Remove(asignatureRegister);
+            db.SaveChanges();
+            return RedirectToAction("Groups");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
