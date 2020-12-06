@@ -39,9 +39,21 @@ namespace FridaSchoolWeb.Controllers
             return View(subjects);
         }
         public IActionResult AddSubject(int id){
-            string roster = ControllerContext.HttpContext.User.Identity.Name;
-
-            return RedirectToAction("Subjects");
+            int idUser = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
+            AsignaturePerTeacher asignatureRegister = new AsignaturePerTeacher{
+                ID_Subject = id,
+                ID_Teacher = idUser
+            };
+            db.AsignaturesPerTeacher.Add(asignatureRegister);
+            db.SaveChanges();
+            return RedirectToAction("MySubjects");
+        }
+        public IActionResult RemoveSubject(int id){
+            int idUser = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
+            AsignaturePerTeacher asignatureRegister = db.AsignaturesPerTeacher.First(a => a.ID_Teacher == idUser && a.ID_Subject == id);
+            db.AsignaturesPerTeacher.Remove(asignatureRegister);
+            db.SaveChanges();
+            return RedirectToAction("MySubjects");
         }
 
         public IActionResult Subjects(string message)
@@ -56,6 +68,30 @@ namespace FridaSchoolWeb.Controllers
             return View(teacher);
         }
 
+        [HttpPost]
+        public IActionResult EditSubject(int id, string name, string theoryH, string practiceH)
+        {
+            sbyte theoryHours = sbyte.Parse(theoryH);
+            sbyte practiceHours = sbyte.Parse(practiceH);
+            if((theoryHours + practiceHours) < 7 && (theoryHours + practiceHours) >0){
+                Subject subject = db.Subjects.First(s => s.ID == id);
+                subject.Name = name;
+                subject.TheoryHours = theoryHours;
+                subject.PracticeHours = practiceHours;
+                db.Subjects.Update(subject);
+                db.SaveChanges();
+            }else{
+                return RedirectToAction("Subjects", new {mesage = "The hours are incorrect"});
+            }
+            return RedirectToAction("Subjects");
+        }
+
+        public IActionResult Delete(int id){
+            Subject subject = db.Subjects.First(s => s.ID == id); 
+            db.Subjects.Remove(subject);
+            db.SaveChanges();
+            return RedirectToAction("Subjects");
+        }
         public IActionResult Create(string name, string theoryH, string practiceH){
             sbyte theoryHours = sbyte.Parse(theoryH);
             sbyte practiceHours = sbyte.Parse(practiceH);
