@@ -8,6 +8,7 @@ namespace FridaSchoolWeb.Models
         public string Key{get; set;}
         public sbyte PracticeHours{get; set;}
         public sbyte TheoryHours{get; set;}  
+        public int? TeacherID{get; set;}
 
         public Subject(){  
         }

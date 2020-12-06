@@ -28,14 +28,16 @@ namespace FridaSchoolWeb.Controllers
         public IActionResult MySubjects(string message)
         {
             int id = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
-            IQueryable<AsignaturePerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == id);
+            List<AsignaturePerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == id).ToList();
             SubjectsList subjects = new SubjectsList();
-            subjects.SubjectsPerTeacher = db.Subjects.Where(s => mySubjects.Any(p => p.ID_Subject == s.ID))
-            .OrderByDescending(x => x.GetTotalHours())
-            .ToList();
-            subjects.SubjectsAvaiable = db.Subjects.Where(s => mySubjects.Any(p => p.ID_Subject != s.ID))
-            .OrderByDescending(x => x.GetTotalHours())
-            .ToList();
+            foreach (var item in mySubjects)
+            {
+                subjects.SubjectsPerTeacher.Add(db.Subjects.First(x => x.ID == item.ID_Subject));
+            }
+            foreach (var item in mySubjects)
+            {
+                subjects.SubjectsPerTeacher.Add(db.Subjects.First(x => x.ID != item.ID_Subject));
+            }
             return View(subjects);
         }
         public IActionResult AddSubject(int id){

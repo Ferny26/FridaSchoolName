@@ -1,20 +1,19 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
-@model List<(Group,Subject)>;
 @{
-    ViewData["Title"] = "My Groups";
+    ViewData["Title"] = "My Subjects";
+    ViewBag.UserName = $"{@Model.Names} {@Model.MiddleName}";
     Layout ="_Layout";
 }
     <partial name="_LayoutAccount" />
-
-    <div class="view">
+     <div class="view">
          @{
         if(HttpContextAccessor.HttpContext.User.IsInRole("Cordinator")){
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="/Group/Groups" aria-selected="false">Groups</a>
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="/Group/Groups"aria-selected="false" >Subjects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="/Group/MyGroups" aria-selected="true">MyGroups</a>
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="/Group/MyGroups" aria-selected="true">MySubjects</a>
                 </li>
             </ul>
         }
@@ -23,13 +22,16 @@
         <div class="container">
             @{
                  <table class="table">
+                     <thead>
+                         <h3>Subjects selected</h3>
+                     </thead>
                         <tbody>
                             <tr>
+                                <th>ID</th>
+                                <th>Key</th>
                                 <th>Subject</th>
                                 <th>Theory Hours</th>
                                 <th>Practice Hours</th>
-                                <th>Group</th>
-                                <th>Period</th>
                             </tr>
                 @foreach (var item in @Model)
                 {
@@ -56,6 +58,7 @@
         </div>
 
     </div>
+
 
     
 
