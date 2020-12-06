@@ -3,11 +3,10 @@
     ViewData["Title"] = "New Teacher";
     Layout ="_Layout";
 }
-    <partial name="_LayoutAccount" />
-    <div class="view">
+    <div class="container">
       <table class="table">
         <thead>
-            <a href="/Admin/Create" data-toggle="modal" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new teacher</a>
+            <a href="/Admin/Create" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new teacher</a>
             <h3>Teachers</h3>
         </thead>
          <tbody>
@@ -30,7 +29,7 @@
           <td>@item.Age</td>
           <td>@item.BirthDate.ToString("dd/MMMM/yyyy")</td>
           @{if(@item.IsBase){
-              <td>Trues</td>
+              <td>True</td>
           }else{
               <td>False</td>
           }

@@ -3,8 +3,7 @@
     ViewData["Title"] = "New Teacher";
     Layout ="_Layout";
 }
-    <partial name="_LayoutAccount" />
-    <div class="view">
+    <div class="container">
 
     
     <h4>Teacher</h4>
@@ -40,13 +39,36 @@
     <label for="lastName">Password</label>
     <input type="text" class="form-control" name="password" required>
   </div>
+  
   <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="type" value="true">
-    <label class="form-check-label" for="exampleCheck1">Cordinator</label>
+    <input type="checkbox" class="form-check-input" id="checkbox1" name="type" value="true">
+    <label class="form-check-label" for="checkbox1">Cordinator</label>
+  </div>
+  <div id="autoUpdate">
+     <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="isBase" id="inlineRadio1" value="true" >
+            <label class="form-check-label" for="inlineRadio1">Base</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="isBase" id="inlineRadio2" value="false" checked>
+            <label class="form-check-label" for="inlineRadio2">Asignature</label>
+        </div>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
 </form>
     </div>
+
+    <script>
+      $(document).ready(function(){
+    $('#checkbox1').change(function(){
+        if(this.checked)
+            $('#autoUpdate').fadeOut('slow');
+        else
+            $('#autoUpdate').fadeIn('slow');
+
+        });
+    });
+    </script>
     
 
    

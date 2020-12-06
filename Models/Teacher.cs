@@ -19,25 +19,10 @@ namespace FridaSchoolWeb.Models
 
         public int? assignedHours; 
         public int? assignedGroups;
-
-        public virtual ICollection<Subject> Subjects {get; set;}
-        public string Roaster{get; set;}
+        public string Roaster{get; set;} 
         protected const sbyte CordinatorHours = 10, BaseHours = 30, AsignatureHours=24;
 
         public Teacher(){
-            this.Subjects = new List<Subject>();
-        }
-
-        public Teacher(String[] information){
-            Names = information[0];
-            MiddleName = information[1];
-            LastName = information[2];
-            BirthDate = DateTime.Parse(information[3]);
-            Gender = Convert.ToChar(information[4]);
-            Password = information[5];
-            //AssignedHours = 0;
-            //AssignedGroups = 0;
-            KeysGenerator();
         }
 
         public virtual sbyte GetHours(){

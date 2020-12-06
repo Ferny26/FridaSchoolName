@@ -42,7 +42,6 @@ namespace FridaSchoolWeb.Models
             .HasMaxLength(13);
             modelBuilder.Entity<Teacher>()
             .Property(c => c.Roaster)
-            .IsRequired()
             .HasMaxLength(4);
             modelBuilder.Entity<Teacher>()
             .Property(c => c.Password)
