@@ -11,10 +11,10 @@
         if(HttpContextAccessor.HttpContext.User.IsInRole("Cordinator")){
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="/Group/Groups" aria-selected="false">Groups</a>
+                    <a class="nav-link active" id="home-tab" href="/Group/MyGroups" >My Groups</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="/Group/MyGroups" aria-selected="true">MyGroups</a>
+                    <a class="nav-link" id="profile-tab" href="/Group/Groups">Groups</a>
                 </li>
             </ul>
         }
