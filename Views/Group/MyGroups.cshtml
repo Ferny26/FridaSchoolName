@@ -1,0 +1,63 @@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@model List<(Group,Subject)>;
+@{
+    ViewData["Title"] = "My Groups";
+    Layout ="_Layout";
+}
+    <partial name="_LayoutAccount" />
+
+    <div class="view">
+         @{
+        if(HttpContextAccessor.HttpContext.User.IsInRole("Cordinator")){
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="/Group/Groups" >Groups</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="/Group/MyGroups" >MyGroups</a>
+                </li>
+            </ul>
+        }
+        <br>
+        }
+        <div class="container">
+            @{
+                 <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Theory Hours</th>
+                                <th>Practice Hours</th>
+                                <th>Group</th>
+                                <th>Period</th>
+                            </tr>
+                @foreach (var item in @Model)
+                {
+                   
+                        <tr>
+                        <td>@item.Item2.Name</td>
+                        <td>@item.Item2.TheoryHours</td>
+                        <td>@item.Item2.PracticeHours</td>
+                        <td>@item.Item1.Name</td>
+                        @{if(@item.Item1.Period == true){
+                            <td>Quarter</td>
+                        }else{
+                            <td>Semester</td>
+                        }
+                        }
+                       </tr>
+                }
+                    </tbody>
+                </table>
+            }
+            
+
+
+        </div>
+
+    </div>
+
+    
+
+
+

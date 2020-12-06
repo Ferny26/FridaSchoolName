@@ -1,0 +1,168 @@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@model IQueryable<Group>
+@{
+    ViewData["Title"] = "Groups";
+    Layout ="_Layout";
+}
+    <partial name="_LayoutAccount" />
+    <div class="view">
+        @{
+        if(HttpContextAccessor.HttpContext.User.IsInRole("Cordinator")){
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="/Group/Groups" >Groups</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="/Group/MyGroups" >MyGroups</a>
+                </li>
+            </ul>
+        }
+        <br>
+        }
+    <div class="container">
+        <table class="table">
+            <thead>
+            <a href="#myModalCreate" data-toggle="modal" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new groups</a>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Period</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        @{if(@item.Period == true){
+                            <td>Quarter</td>
+                        }else{
+                            <td>Semester</td>
+                        }
+                        }
+                        <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
+                        <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
+                        <td >
+                            <a class='btn btn-info btn-xs' href="/Group/Delete/@item.ID">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg></a><a href="#myModal" data-toggle="modal" class="btn btn-danger btn-xs">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                            </svg></a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="emyModalLabel">Edit Group</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form asp-action="Edit" method="post">
+                                        <div class="form-group">
+                                            <label for="name" class="col-form-label">Name:</label>
+                                            <input type="text" class="form-control" name="name" value="@item.Name">
+                                        </div>
+                                        @{
+                                            if(DateTime.Now > @item.EndDate){
+                                                if(@item.Period == true){
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="period" id="inlineRadio1" value="true" checked >
+                                                    <label class="form-check-label" for="inlineRadio1">Quarter</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="period" id="inlineRadio2" value="false" >
+                                                    <label class="form-check-label" for="inlineRadio2">Semester</label>
+                                                </div>
+                                                }else{
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="period" id="inlineRadio1" value="true" >
+                                                        <label class="form-check-label" for="inlineRadio1">Quarter</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="period" id="inlineRadio2" value="false"checked >
+                                                        <label class="form-check-label" for="inlineRadio2">Semester</label>
+                                                    </div>
+                                                }
+                                            }else{
+                                                if(@item.Period == true){
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="period" id="inlineRadio1" value="true" checked readonly>
+                                                        <label class="form-check-label" for="inlineRadio1">Quarter</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="period" id="inlineRadio2" value="false" readonly>
+                                                        <label class="form-check-label" for="inlineRadio2">Semester</label>
+                                                    </div>
+                                                }else{
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="period" id="inlineRadio1" value="true" readonly>
+                                                        <label class="form-check-label" for="inlineRadio1">Quarter</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="period" id="inlineRadio2" value="false" checked readonly>
+                                                        <label class="form-check-label" for="inlineRadio2">Semester</label>
+                                                    </div>
+                                                }
+                                            }  
+                                        }
+                                        <br><br>
+                                        <input type="hidden" name="id" id="planid"  value="@item.ID" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" >Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </tbody>
+        </table>
+        </div>
+        <div class="modal fade" id="myModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="emyModalLabel">Edit Group</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="Create" method="post">
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="period" id="inlineRadio1" value="true" >
+                            <label class="form-check-label" for="inlineRadio1">Quarter</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="period" id="inlineRadio2" value="false" checked>
+                            <label class="form-check-label" for="inlineRadio2">Semester</label>
+                        </div>
+                        <br><br>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+
+    
+
+
+

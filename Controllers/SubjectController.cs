@@ -92,6 +92,9 @@ namespace FridaSchoolWeb.Controllers
             db.SaveChanges();
             return RedirectToAction("Subjects");
         }
+
+
+
         public IActionResult Create(string name, string theoryH, string practiceH){
             sbyte theoryHours = sbyte.Parse(theoryH);
             sbyte practiceHours = sbyte.Parse(practiceH);

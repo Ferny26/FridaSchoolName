@@ -41,6 +41,15 @@ a {
   -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 5px;
 }
+table td{
+  text-align: left;
+}
+table th{
+  text-align: left;
+}
+table{
+  text-align: left;
+}
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;

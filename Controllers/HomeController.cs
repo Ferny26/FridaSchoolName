@@ -47,7 +47,7 @@ namespace FridaSchoolWeb.Controllers
                         {
                             new Claim(ClaimTypes.Name, teacher.Roaster),
                             new Claim("ID", teacher.ID.ToString()),
-                            new Claim("FullName", teacher.Names + teacher.MiddleName),
+                            new Claim("FullName", teacher.Names + " " + teacher.MiddleName),
                             new Claim(ClaimTypes.Role, role)
                         };
                         var claimsIdentity = new ClaimsIdentity(

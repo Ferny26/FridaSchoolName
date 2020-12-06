@@ -11,6 +11,8 @@ namespace FridaSchoolWeb.Models
         public DbSet<Teacher> Teachers { get; set; } 
         public DbSet<Subject> Subjects { get; set; } 
         public DbSet<AsignaturePerTeacher> AsignaturesPerTeacher{get;set;}
+        public DbSet<Group> Groups { get; set; } 
+        public DbSet<Sort> Sort { get; set; } 
 
         public FridaSchool(DbContextOptions<FridaSchool> options)
             : base(options)
@@ -69,7 +71,9 @@ namespace FridaSchoolWeb.Models
             modelBuilder.Entity<Subject>()
             .Property(s => s.PracticeHours)
             .HasConversion<sbyte>();
-
+            modelBuilder.Entity<Group>()
+            .Property(g => g.Name)
+            .HasMaxLength(2);
 
         }
 
