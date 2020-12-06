@@ -160,3 +160,6 @@
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Group/Groups.cshtml.g.cs
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Group/MyGroups.cshtml.g.cs
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Subject/MySubjects.cshtml.g.cs
+/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Admin/Create.cshtml.g.cs
+/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Admin/Index.cshtml.g.cs
+/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Subject/Subjects.cshtml.g.cs

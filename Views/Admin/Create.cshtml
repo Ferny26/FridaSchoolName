@@ -1,0 +1,55 @@
+@model Teacher
+@{
+    ViewData["Title"] = "New Teacher";
+    Layout ="_Layout";
+}
+    <partial name="_LayoutAccount" />
+    <div class="view">
+
+    
+    <h4>Teacher</h4>
+
+    <form asp-action="Create" method="post">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="names">Name(s)</label>
+      <input type="text" class="form-control" name="names" required>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="middleName">MiddleName</label>
+      <input  type="text" class="form-control" name="middleName"  required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="lastName">LastName</label>
+    <input type="text" class="form-control" name="lastName" required>
+  </div>
+  <div class="form-group">
+    <label for="birthDate">BirthDate</label>
+    <input type="date" class="form-control" name="birthDate" required>
+  </div>
+  <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="genre" id="inlineRadio1" value="H" required>
+      <label class="form-check-label" for="inlineRadio1">H</label>
+  </div>
+  <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="genre" id="inlineRadio2" value="M" checked required>
+      <label class="form-check-label" for="inlineRadio2">M</label>
+  </div>
+  <div class="form-group">
+    <label for="lastName">Password</label>
+    <input type="text" class="form-control" name="password" required>
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="type" value="true">
+    <label class="form-check-label" for="exampleCheck1">Cordinator</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+    </div>
+    
+
+   
+
+
+
