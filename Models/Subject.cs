@@ -3,6 +3,7 @@ namespace FridaSchoolWeb.Models
 {
     public class Subject
     {
+        public int ID{get;set;}
         public string  Name {get; set;}
         public string Key{get; set;}
         public sbyte PracticeHours{get; set;}

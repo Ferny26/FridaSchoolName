@@ -16,10 +16,13 @@ namespace FridaSchoolWeb.Models
         public string RFC{get; set;}
         public char Gender{get; set;}
         public bool IsBase{get; set;}
+        public virtual ICollection<Subject> Subjects {get; set;}
         public string Roaster{get; set;}
         protected const sbyte CordinatorHours = 10, BaseHours = 30, AsignatureHours=24;
 
-        public Teacher(){}
+        public Teacher(){
+            this.Subjects = new List<Subject>();
+        }
 
         public Teacher(String[] information){
             Names = information[0];
