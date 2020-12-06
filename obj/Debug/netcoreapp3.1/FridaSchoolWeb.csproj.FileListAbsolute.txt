@@ -155,8 +155,8 @@
 /Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/obj/Debug/netcoreapp3.1/FridaSchoolWeb.pdb
 /Users/fernadomicheljimenezvelez/Desktop/Frida School/FridaSchoolName/obj/Debug/netcoreapp3.1/FridaSchoolWeb.genruntimeconfig.cache
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Sort/Index.cshtml.g.cs
-/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Subjects/Index.cshtml.g.cs
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Profile/Edit.cshtml.g.cs
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_LoginPartial.cshtml.g.cs
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Group/Groups.cshtml.g.cs
 /Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Group/MyGroups.cshtml.g.cs
+/Users/fernandajimenez/Documents/Archivos escolares/Programacion Avanzada/Csharp/FridaSchoolWeb/obj/Debug/netcoreapp3.1/Razor/Views/Subject/MySubjects.cshtml.g.cs
