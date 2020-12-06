@@ -37,7 +37,6 @@ namespace FridaSchoolWeb.Controllers
             }
             return View(asignature);
         }
- 
 
         public IActionResult Groups(string message)
         {
@@ -76,23 +75,50 @@ namespace FridaSchoolWeb.Controllers
                 db.SaveChanges();
             return RedirectToAction("Groups","Group");
         }
+
+
+        
         public IActionResult Group(int id){
             Group group = db.Groups.First(g => g.ID == id);
-            return View(group);
+            TempData ["ID_Group"] = group.ID;
+            SubjectsGroupList subjects = new SubjectsGroupList();
+            subjects.Group = group;
+            List<GroupSubjects> groupSubjects = db.GroupSubjects.Where(a => a.ID_Group == id).ToList();
+
+            foreach (var item in groupSubjects)
+            {
+                subjects.SubjectsPerGroup.Add(db.Subjects.First(x => x.ID == item.ID_Subject));
+            }
+            List<Subject> allSubjects = db.Subjects.ToList();
+            Erased:
+            foreach (var item in allSubjects)
+            {
+                foreach (var item2 in subjects.SubjectsPerGroup)
+                {
+                    if(item2.ID == item.ID){
+                        allSubjects.Remove(item);
+                        goto Erased;
+                    }
+                }
+            }
+            subjects.SubjectsAvaiable = allSubjects;
+            return View(subjects);
         }
 
-        public IActionResult AddSubject(int id, int idGroup){
-            Sort asignatureRegister = new Sort{
+        public IActionResult AddSubject(int id){
+            int idGroup = (int)TempData["ID_Group"];
+            GroupSubjects asignatureRegister = new GroupSubjects{
                 ID_Subject = id,
                 ID_Group = idGroup
             };
-            db.Sort.Add(asignatureRegister);
+            db.GroupSubjects.Add(asignatureRegister);
             db.SaveChanges();
-            return RedirectToAction("Group",idGroup);
+            return RedirectToAction("Groups");
         }
-        public IActionResult RemoveSubject(int id, int idGroup){
-            Sort asignatureRegister = db.Sort.First(a => a.ID_Subject == id && a.ID_Group == idGroup);
-            db.Sort.Remove(asignatureRegister);
+        public IActionResult RemoveSubject(int id){
+            int idGroup = (int)TempData["ID_Group"];
+            GroupSubjects asignatureRegister = db.GroupSubjects.First(a => a.ID_Subject == id && a.ID_Group == idGroup);
+            db.GroupSubjects.Remove(asignatureRegister);
             db.SaveChanges();
             return RedirectToAction("Groups");
         }
