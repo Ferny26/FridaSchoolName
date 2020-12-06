@@ -13,20 +13,11 @@ namespace FridaSchoolWeb.Models
         public Subject(){  
         }
 
-        public Subject (String[] information, short asignatureCounter){
-            Name = information[0];
-            TheoryHours = sbyte.Parse(information[1]);
-            PracticeHours = sbyte.Parse(information[2]); 
-            _getKey(asignatureCounter);
-        }
-
         public sbyte GetTotalHours(){
             return (sbyte)(PracticeHours + TheoryHours);
         }
 
-
-
-        private void _getKey(short counter){
+        public void GenerateKey(int counter){
             Random random = new Random();
             Key = "FK" + random.Next(10,99) + (100 + counter);
         }

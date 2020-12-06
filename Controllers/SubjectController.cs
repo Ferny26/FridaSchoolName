@@ -34,10 +34,19 @@ namespace FridaSchoolWeb.Controllers
             {
                 subjects.SubjectsPerTeacher.Add(db.Subjects.First(x => x.ID == item.ID_Subject));
             }
-            foreach (var item in mySubjects)
+            List<Subject> allSubjects = db.Subjects.ToList();
+            Erased:
+            foreach (var item in allSubjects)
             {
-                subjects.SubjectsPerTeacher.Add(db.Subjects.First(x => x.ID != item.ID_Subject));
+                foreach (var item2 in subjects.SubjectsPerTeacher)
+                {
+                    if(item2.ID == item.ID){
+                        allSubjects.Remove(item);
+                        goto Erased;
+                    }
+                }
             }
+            subjects.SubjectsAvaiable = allSubjects;
             return View(subjects);
         }
         public IActionResult AddSubject(int id){
@@ -60,14 +69,8 @@ namespace FridaSchoolWeb.Controllers
 
         public IActionResult Subjects(string message)
         {
-            ViewBag.message = message;
-            string roster = ControllerContext.HttpContext.User.Identity.Name;
-            Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
-            IQueryable<AsignaturePerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == teacher.ID);
-            teacher.Subjects = db.Subjects.Where(s => mySubjects.Any(p => p.ID_Subject == s.ID))
-            .OrderByDescending(x => x.GetTotalHours())
-            .ToList();
-            return View(teacher);
+            IQueryable<Subject> Subjects = db.Subjects;
+            return View(Subjects);
         }
 
         [HttpPost]
@@ -106,8 +109,11 @@ namespace FridaSchoolWeb.Controllers
                     Name = name,
                     TheoryHours = theoryHours,
                     PracticeHours = practiceHours
-                };
+                };         
                 db.Subjects.Add(subject);
+                db.SaveChanges();
+                subject.GenerateKey(subject.ID);
+                db.Update(subject);
                 db.SaveChanges();
             }else{
                 return RedirectToAction("Subjects", new {mesage = "The hours are incorrect"});

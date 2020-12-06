@@ -7,7 +7,8 @@ namespace FridaSchoolWeb.Models
         public List<Subject> SubjectsPerTeacher{get;set;}
 
         public SubjectsList(){
-            
+            SubjectsAvaiable = new List<Subject>();
+            SubjectsPerTeacher = new List<Subject>();
         }
     }
 }
