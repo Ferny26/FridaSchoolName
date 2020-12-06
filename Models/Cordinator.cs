@@ -6,7 +6,6 @@ namespace FridaSchoolWeb.Models
     {
         public Cordinator(){
         }
-        public Cordinator (string[] information) : base(information){}
 
 
         public override sbyte GetHours()

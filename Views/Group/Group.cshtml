@@ -6,20 +6,12 @@
 }
     <partial name="_LayoutAccount" />
      <div class="view">
-         @{
-        if(HttpContextAccessor.HttpContext.User.IsInRole("Cordinator")){
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link " id="home-tab">Subjects Per Group</a>
-                </li>
-            </ul>
-        }
-        <br>
-        }
         <div class="container">
             @{
                  <table class="table">
                      <thead>
+                         <h3>@Model.Group.Name</h3>
+                         <br>
                          <h3>Subjects selected</h3>
                      </thead>
                         <tbody>
@@ -55,7 +47,7 @@
             @{
                  <table class="table">
                      <thead>
-                         <h3>Subjects selected</h3>
+                         <h3>Subjects avaiable</h3>
                      </thead>
                         <tbody>
                             <tr>

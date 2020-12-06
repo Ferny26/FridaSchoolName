@@ -31,23 +31,18 @@ namespace FridaSchoolWeb.Controllers
             bool fail = false;  
             IQueryable<Teacher> teachers = db.Teachers;
             IQueryable<Group> groups = db.Groups;
-            List<Subject> subjects = new List<Subject>();
+            IQueryable<Subject> subjects = null;
+            //List<Subject> subjects = new List<Subject>();
             #endregion
             if (groups != null )
             {
                 foreach (var item in groups)
                 {
-                    IQueryable<Sort> sort = db.Sort.Where(s => s.ID_Group == item.ID);
-                    if (sort != null)
+                    IQueryable<GroupSubjects> groupsSubject = db.GroupSubjects.Where(s => s.ID_Group == item.ID);
+                    if (groupsSubject != null)
                     {
-                        foreach (var item2 in sort)
-                        {
-                            subjects.Add(db.Subjects.First(x => x.ID == item2.ID_Subject));
-                        }
-                        foreach (var item3 in subjects)
-                        {
-                            Teacher teacher = candidateRestrictedList(item3);
-                        }
+                        subjects = db.Subjects.Where(x => groupsSubject.Any(y => y.ID_Subject == x.ID));
+                        
                     }else
                     {
                         fail = true;
@@ -56,7 +51,7 @@ namespace FridaSchoolWeb.Controllers
                 }
             }
 
-            return View();
+            return View(subjects);
         }
 
         public Teacher candidateRestrictedList(Subject subject){

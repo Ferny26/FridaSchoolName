@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Security.Claims;  
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-
+using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
+using System.Text;
 using FridaSchoolWeb.Models;
 
 namespace FridaSchoolWeb.Controllers
@@ -27,6 +23,10 @@ namespace FridaSchoolWeb.Controllers
 
         public IActionResult Index(string message)
         {
+            if (ControllerContext.HttpContext.User.Identity.Name != "0000")
+            {
+                return RedirectToAction("Index","Home");
+            }
             IQueryable<Teacher> teachers = db.Teachers;
             return View(teachers);
         }
@@ -35,16 +35,28 @@ namespace FridaSchoolWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string names, string middleName, string lastName, string birthDate, string genre, string password){
-            Teacher teacher = new Teacher{
-                Names = names,
-                MiddleName = middleName,
-                LastName = lastName,
-                BirthDate = DateTime.Parse(birthDate),
-                Gender = genre[0],
-                Password = password
-            };
+        public IActionResult Create(string names, string middleName, string lastName, string birthDate, string genre, string password, string type, string isBase){
+            Teacher teacher;
+            if (type == "true")
+            {
+                teacher = new Cordinator();
+                teacher.IsBase = true;
+            }else
+            {
+                teacher = new Teacher();
+                teacher.IsBase = Boolean.Parse(isBase);
+            }
+            teacher.Names = names.ToUpper();
+            teacher.MiddleName = middleName.ToUpper();
+            teacher.LastName = lastName.ToUpper();
+            teacher.BirthDate = DateTime.Parse(birthDate);
+            teacher.Gender = genre[0];
+            teacher.Password = Encrypt(password);
+            teacher.KeysGenerator();
             db.Teachers.Add(teacher);
+            db.SaveChanges();
+            teacher.Roaster = (1000 + teacher.ID).ToString();
+            db.Update(teacher);
             db.SaveChanges();
             return RedirectToAction("Index","Admin");
         }
@@ -54,6 +66,22 @@ namespace FridaSchoolWeb.Controllers
             db.Teachers.Remove(teacher);
             db.SaveChanges();
             return RedirectToAction("Index","Admin");
+        }
+
+        private string Encrypt(string password){
+            using (SHA256 sha256Hash = SHA256.Create()){
+                byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var sBuilder = new StringBuilder();
+                // Loop through each byte of the hashed data
+                // and format each one as a hexadecimal string.
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+
+                // Return the hexadecimal string.
+                return sBuilder.ToString();
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

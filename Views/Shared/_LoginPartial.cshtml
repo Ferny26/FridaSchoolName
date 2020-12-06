@@ -1,8 +1,10 @@
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
-
-@if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
-{
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;    
+@if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated){
    <form class="form-inline my-2 my-lg-0">
+        @Html.ActionLink("Log Out", "Logout", "Home")  
+    </form>
+}else{
+     <form class="form-inline my-2 my-lg-0" hidden>
         @Html.ActionLink("Log Out", "Logout", "Home")  
     </form>
 }
