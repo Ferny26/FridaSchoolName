@@ -46,9 +46,9 @@ namespace FridaSchoolWeb.Controllers
                 teacher = new Teacher();
                 teacher.IsBase = Boolean.Parse(isBase);
             }
-            teacher.Names = names;
-            teacher.MiddleName = middleName;
-            teacher.LastName = lastName;
+            teacher.Names = names.ToUpper();
+            teacher.MiddleName = middleName.ToUpper();
+            teacher.LastName = lastName.ToUpper();
             teacher.BirthDate = DateTime.Parse(birthDate);
             teacher.Gender = genre[0];
             teacher.Password = Encrypt(password);

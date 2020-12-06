@@ -27,9 +27,13 @@ namespace FridaSchoolWeb.Controllers
             db = injectedContext;
         }
 
-        public IActionResult Index(string message)
+        public async Task<ActionResult> Index(string message)
         {
             ViewBag.Message = message;
+            if (ControllerContext.HttpContext.User.Identity.Name != null)
+            {
+                await Logout();
+            }
             return View();
         }
 

@@ -13,6 +13,7 @@ namespace FridaSchoolWeb.Models
         public DbSet<AsignaturePerTeacher> AsignaturesPerTeacher{get;set;}
         public DbSet<Group> Groups { get; set; } 
         public DbSet<Sort> Sort { get; set; } 
+        public DbSet<GroupSubjects> GroupSubjects { get; set; } 
 
         public FridaSchool(DbContextOptions<FridaSchool> options)
             : base(options)

@@ -80,7 +80,7 @@ namespace FridaSchoolWeb.Controllers
             sbyte practiceHours = sbyte.Parse(practiceH);
             if((theoryHours + practiceHours) < 7 && (theoryHours + practiceHours) >0){
                 Subject subject = db.Subjects.First(s => s.ID == id);
-                subject.Name = name;
+                subject.Name = name.ToUpper();
                 subject.TheoryHours = theoryHours;
                 subject.PracticeHours = practiceHours;
                 db.Subjects.Update(subject);
@@ -106,7 +106,7 @@ namespace FridaSchoolWeb.Controllers
 
             if((theoryHours + practiceHours) < 7 && (theoryHours + practiceHours) >0){
                 Subject subject = new Subject{
-                    Name = name,
+                    Name = name.ToUpper(),
                     TheoryHours = theoryHours,
                     PracticeHours = practiceHours
                 };         
