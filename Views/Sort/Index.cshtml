@@ -1,4 +1,4 @@
-@model Sort
+@model List<SortDetails>
 @{
     ViewData["Title"] = "Sort";
     Layout ="_Layout";
@@ -6,6 +6,36 @@
     <partial name="_LayoutAccount" />
 
     <div class="view">
+        @{
+        if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-primary" role="alert">
+            @ViewBag.Message
+            </div>
+        }
+        }
+        <table class="table">
+            <thead>
+            <a href="/Sort/GenerateSort" data-toggle="modal" class="btn btn-primary btn-xs pull-right"><b>+</b> Generate Sort</a>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Group</th>
+                    <th>Subject</th>
+                </tr>
+                <tr>
+                    @{
+                        @foreach (var item in @Model)
+                        {
+                            <td>@item.Teacher.Names + @item.Teacher.MiddleName</td>
+                            <td>@item.Group.Name</td>
+                            <td>@item.Subject.Name</td>
+                        }
+                    }
+                </tr>
+            </tbody>
+        </table>
 
     </div>
 

@@ -19,6 +19,7 @@ namespace FridaSchoolWeb.Models
 
         public int? assignedHours; 
         public int? assignedGroups;
+        public int? subjects; 
         public string Roaster{get; set;} 
         protected const sbyte CordinatorHours = 10, BaseHours = 30, AsignatureHours=24;
 

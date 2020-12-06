@@ -24,15 +24,54 @@ namespace FridaSchoolWeb.Controllers
             _logger = logger;
             db = injectedContext;
         }
+        public ActionResult Index(string message){
+            ViewBag.message = message;
+            if (!String.IsNullOrEmpty(message))
+            {
+                var all = from c in db.Sort select c;
+                db.Sort.RemoveRange(all);
+                db.SaveChanges();
+                return View();
+            }else
+            {
+                IQueryable<Sort> sort = db.Sort;
+                List<SortDetails> sortDetails = new List<SortDetails>();
+                foreach (var item in sort)
+                {
+                    Teacher teacher = db.Teachers.First(x => x.ID == item.ID_Teacher);
+                    Subject subject = db.Subjects.First(x => x.ID == item.ID_Subject);
+                    Group group = db.Groups.First(x => x.ID == item.ID_Group);
+                    sortDetails.Add(new SortDetails{
+                        Teacher = teacher,
+                        Subject = subject,
+                        Group = group
+                        });
+                }
+                return View(sortDetails);
+            }
+            
+        }
 
-        public IActionResult Index(string message)
+        public ActionResult GenerateSort()
         {
+            #region Clean
+                var all = from c in db.Sort select c;
+                db.Sort.RemoveRange(all);
+                db.SaveChanges();
+            #endregion
+            
             #region Variables
-            bool fail = false;  
             IQueryable<Teacher> teachers = db.Teachers;
             IQueryable<Group> groups = db.Groups;
             IQueryable<Subject> subjects = null;
-            //List<Subject> subjects = new List<Subject>();
+            #endregion
+            #region upload subjects list
+            //For each teacher upload the subjects number that it has 
+                foreach (var item in teachers)
+                {
+                    IQueryable<AsignaturePerTeacher> asignatures = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == item.ID);
+                    item.subjects = asignatures.Count();
+                }
             #endregion
             if (groups != null )
             {
@@ -42,37 +81,52 @@ namespace FridaSchoolWeb.Controllers
                     if (groupsSubject != null)
                     {
                         subjects = db.Subjects.Where(x => groupsSubject.Any(y => y.ID_Subject == x.ID));
-                        
+                        foreach (var item2 in subjects)
+                        {
+                            IQueryable<AsignaturePerTeacher> teachersAvaiables = db.AsignaturesPerTeacher.Where(a => a.ID_Subject == item2.ID);
+                            List<Teacher> teachersLRC = teachers.Where(x => teachersAvaiables.Any(y => y.ID_Teacher == x.ID)).ToList();
+                            teachersLRC = teachersLRC.Where(x => (x.assignedHours + item2.GetTotalHours()) <= x.GetHours()  && x.assignedGroups < 5 ).ToList();
+                            teachersLRC = teachersLRC.OrderBy(x => x.subjects)
+                            .ThenByDescending(x => (x.GetHours()/2 - x.assignedHours))
+                            .ToList();
+                            if (teachersLRC.Count != 0)
+                            {
+                                //Take the best option
+                                Teacher teacher = teachersLRC[0];
+                                teacher.assignedGroups = (sbyte)(teacher.assignedGroups + 1);
+                                teacher.assignedHours = (sbyte) (teacher.assignedHours + item2.GetTotalHours());
+                                Sort sort = new Sort{
+                                    ID_Teacher = teacher.ID,
+                                    ID_Group = item.ID,
+                                    ID_Subject =item2.ID
+                                };
+                                db.Sort.Add(sort);
+                                db.SaveChanges();
+                            }else
+                            {
+                                return RedirectToAction("Index", new {message = "There's not enough teachers per subjects"});
+                            }
+                        }  
                     }else
                     {
-                        fail = true;
-                        break;
+                        return RedirectToAction("Index", new {message = "One or more groups doesn't have subjects"});
                     }
                 }
-            }
-
-            return View(subjects);
-        }
-
-        public Teacher candidateRestrictedList(Subject subject){
-                    Teacher teacher = null;
-                    //Get the teachers list that can teach this sibject
-                    IQueryable<AsignaturePerTeacher> teachersLRC = db.AsignaturesPerTeacher.Where(a => a.ID_Subject == subject.ID);
-                    if (teachersLRC != null)
+                    var teachersCounter = teachers.Where(x => x.assignedHours >= x.GetHours()/2).ToList();
+                    //Verify if the teacher have the minimun hours 
+                    if (teachersCounter.Count() == teachers.Count())
                     {
-                        List<Teacher> teachers = new List<Teacher>();
-                        foreach (var item in teachersLRC)
-                        {
-                            teachers.Add(db.Teachers.First(t => t.ID == item.ID_Teacher));
-                        }
-                        //Take the employees that don't have their complete hours or groups  
-                        teachers = teachers.Where(x => (x.assignedHours + subject.GetTotalHours()) <= x.GetHours()  && x.assignedGroups < 5 ).ToList();
-                        //Order by the employees that have lees subjects to teach 
-                        //and then by the employees that don't have the hours half complete
+                        return RedirectToAction("Index");
+                    }else
+                    {
+                        return RedirectToAction("Index", new {message = "The teachers don't have the minimum hours with the actual information"});
                         
                     }
-                    return teacher;
-                    }
+            }else{
+                return RedirectToAction("Index", new {message = "There's no groups"});
+            }
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
