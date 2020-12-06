@@ -10,7 +10,7 @@ namespace FridaSchoolWeb.Models
     {
         public DbSet<Teacher> Teachers { get; set; } 
         public DbSet<Subject> Subjects { get; set; } 
-        public DbSet<AsignaturePerTeacher> AsignaturesPerTeacher{get;set;}
+        public DbSet<AsignaturesPerTeacher> AsignaturesPerTeacher{get;set;}
 
         public FridaSchool(DbContextOptions<FridaSchool> options)
             : base(options)
@@ -50,11 +50,13 @@ namespace FridaSchoolWeb.Models
             .Property(c => c.Gender)
             .IsRequired()
             .HasMaxLength(1);
+            
             modelBuilder.Entity<Teacher>()
             .HasDiscriminator<string>("Type")
             .HasValue<Teacher>("teacher")
             .HasValue<Cordinator>("cordinator");
             modelBuilder.Entity<Cordinator>().HasBaseType<Teacher>();
+
             modelBuilder.Entity<Subject>()
             .Property(c => c.Name)
             .IsRequired()
@@ -63,12 +65,6 @@ namespace FridaSchoolWeb.Models
             .Property(c => c.Key)
             .IsRequired()
             .HasMaxLength(7);
-            modelBuilder.Entity<Subject>()
-            .Property(s => s.TheoryHours)
-            .HasConversion<sbyte>();
-            modelBuilder.Entity<Subject>()
-            .Property(s => s.PracticeHours)
-            .HasConversion<sbyte>();
 
 
         }

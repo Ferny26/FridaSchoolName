@@ -28,19 +28,21 @@ namespace FridaSchoolWeb.Controllers
         public IActionResult MySubjects(string message)
         {
             int id = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
-            IQueryable<AsignaturePerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == id);
+            List<AsignaturesPerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == id).ToList();
             SubjectsList subjects = new SubjectsList();
-            subjects.SubjectsPerTeacher = db.Subjects.Where(s => mySubjects.Any(p => p.ID_Subject == s.ID))
-            .OrderByDescending(x => x.GetTotalHours())
-            .ToList();
-            subjects.SubjectsAvaiable = db.Subjects.Where(s => mySubjects.Any(p => p.ID_Subject != s.ID))
-            .OrderByDescending(x => x.GetTotalHours())
-            .ToList();
+            foreach (var item in mySubjects)
+            {
+                subjects.SubjectsPerTeacher.Add(db.Subjects.First(x => x.ID == item.ID_Subject));
+            }
+            foreach (var item in mySubjects)
+            {
+                subjects.SubjectsPerTeacher.Add(db.Subjects.First(x => x.ID != item.ID_Subject));
+            }   
             return View(subjects);
         }
         public IActionResult AddSubject(int id){
             int idUser = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
-            AsignaturePerTeacher asignatureRegister = new AsignaturePerTeacher{
+            AsignaturesPerTeacher asignatureRegister = new AsignaturesPerTeacher{
                 ID_Subject = id,
                 ID_Teacher = idUser
             };
@@ -50,7 +52,7 @@ namespace FridaSchoolWeb.Controllers
         }
         public IActionResult RemoveSubject(int id){
             int idUser = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
-            AsignaturePerTeacher asignatureRegister = db.AsignaturesPerTeacher.First(a => a.ID_Teacher == idUser && a.ID_Subject == id);
+            AsignaturesPerTeacher asignatureRegister = db.AsignaturesPerTeacher.First(a => a.ID_Teacher == idUser && a.ID_Subject == id);
             db.AsignaturesPerTeacher.Remove(asignatureRegister);
             db.SaveChanges();
             return RedirectToAction("MySubjects");
@@ -59,13 +61,8 @@ namespace FridaSchoolWeb.Controllers
         public IActionResult Subjects(string message)
         {
             ViewBag.message = message;
-            string roster = ControllerContext.HttpContext.User.Identity.Name;
-            Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
-            IQueryable<AsignaturePerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == teacher.ID);
-            teacher.Subjects = db.Subjects.Where(s => mySubjects.Any(p => p.ID_Subject == s.ID))
-            .OrderByDescending(x => x.GetTotalHours())
-            .ToList();
-            return View(teacher);
+            IQueryable<Subject> subjects = db.Subjects;
+            return View(subjects);
         }
 
         [HttpPost]
