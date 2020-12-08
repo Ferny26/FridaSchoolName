@@ -140,7 +140,7 @@ namespace FridaSchoolWeb.Controllers
         /// <summary>
         /// Allow add suject to group
         /// </summary>
-        /// <param name="id">goup id</param>
+        /// <param name="id">subject id</param>
         /// <returns>the view with all groups</returns>
         public IActionResult AddSubject(int id){
             int idGroup = (int)TempData["ID_Group"];
@@ -150,23 +150,23 @@ namespace FridaSchoolWeb.Controllers
             };
             db.GroupSubjects.Add(asignatureRegister);
             db.SaveChanges();
-            return RedirectToAction("Groups");
+            return RedirectToAction("Group", new{id = idGroup});
         }
 
         /// <summary>
         /// Remove one subject of the group subjects list
         /// </summary>
-        /// <param name="id">group id</param>
+        /// <param name="id">subject id</param>
         /// <returns>the view with all groups</returns>
         public IActionResult RemoveSubject(int? id){
+            int idGroup = (int)TempData["ID_Group"];
             if (id != null)
             {
-            int idGroup = (int)TempData["ID_Group"];
             GroupSubjects asignatureRegister = db.GroupSubjects.First(a => a.ID_Subject == id && a.ID_Group == idGroup);
             db.GroupSubjects.Remove(asignatureRegister);
             db.SaveChanges();
             }
-            return RedirectToAction("Groups");
+            return RedirectToAction("Group", new{id = idGroup});
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
