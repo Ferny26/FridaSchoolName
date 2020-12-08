@@ -13,7 +13,9 @@
             @ViewBag.Message
             </div>
         }
-        }
+        if (@Model != null)
+        {
+            
         <table class="table">
             <thead>
             <a href="/Sort/GenerateSort" class="btn btn-primary btn-xs pull-right"><b>+</b> Generate Sort</a>
@@ -24,18 +26,22 @@
                     <th>Group</th>
                     <th>Subject</th>
                 </tr>
-                <tr>
+                
                     @{
                         @foreach (var item in @Model)
                         {
-                            <td>@item.Teacher.Names + @item.Teacher.MiddleName</td>
+                            <tr>
+                            <td>@item.Teacher.Names @item.Teacher.MiddleName</td>
                             <td>@item.Group.Name</td>
                             <td>@item.Subject.Name</td>
+                            </tr>
                         }
                     }
-                </tr>
+                
             </tbody>
         </table>
+        }
+        }
 
     </div>
 

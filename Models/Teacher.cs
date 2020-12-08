@@ -17,13 +17,15 @@ namespace FridaSchoolWeb.Models
         public char Gender{get; set;}
         public bool IsBase{get; set;}
 
-        public int? assignedHours; 
-        public int? assignedGroups;
+        public int assignedHours; 
+        public int assignedGroups;
         public int? subjects; 
         public string Roaster{get; set;} 
         protected const sbyte CordinatorHours = 10, BaseHours = 30, AsignatureHours=24;
 
         public Teacher(){
+            assignedGroups = 0;
+            assignedHours = 0;
         }
 
         public virtual sbyte GetHours(){

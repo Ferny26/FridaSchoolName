@@ -32,6 +32,9 @@ namespace FridaSchoolWeb.Controllers
         /// <returns>The view with the user subjects</returns>
         public IActionResult MySubjects(string message)
         {
+            if(!HttpContext.User.Identity.IsAuthenticated){
+                return RedirectToAction("Logout","Home");
+            }else{
             int id = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
             List<AsignaturePerTeacher> mySubjects = db.AsignaturesPerTeacher.Where(a => a.ID_Teacher == id).ToList();
             SubjectsList subjects = new SubjectsList();
@@ -55,6 +58,7 @@ namespace FridaSchoolWeb.Controllers
             }
             subjects.SubjectsAvaiable = allSubjects;
             return View(subjects);
+            }
         }
 
         /// <summary>
@@ -93,8 +97,12 @@ namespace FridaSchoolWeb.Controllers
         /// <returns>The view with all subjects</returns>
         public IActionResult Subjects(string message)
         {
+           if(!HttpContext.User.Identity.IsAuthenticated){
+                return RedirectToAction("Logout","Home");
+            }else{
             IQueryable<Subject> Subjects = db.Subjects;
             return View(Subjects);
+            }
         }
 
         [HttpPost]
@@ -165,11 +173,6 @@ namespace FridaSchoolWeb.Controllers
                 return RedirectToAction("Subjects", new {mesage = "The hours are incorrect"});
             }
             return RedirectToAction("Subjects");
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

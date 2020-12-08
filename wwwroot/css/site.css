@@ -6,6 +6,10 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+.navbar{
+  overflow: hidden;
+  position: fixed;
+}
 
 /* Provide sufficient contrast against white background */
 a {
@@ -60,7 +64,9 @@ table{
   display: block;
   margin-left: 350px;
   margin-right: 50px;
+  margin-bottom: 100px;
 }
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -108,7 +114,7 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   white-space: nowrap;

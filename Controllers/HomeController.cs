@@ -28,15 +28,16 @@ namespace FridaSchoolWeb.Controllers
         }
 
         
-        public async Task<ActionResult> Index(string message)
+        public ActionResult Index(string message)
         {
             ViewBag.Message = message;
             //If there's no a saved user go to logout
-            if (ControllerContext.HttpContext.User.Identity.Name != null)
+            if (ControllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                await Logout();
-            }
+                    return RedirectToAction("Index", "Profile");
+            }else{
             return View();
+            }
         }
 
         [HttpPost]
@@ -50,6 +51,7 @@ namespace FridaSchoolWeb.Controllers
             if (ModelState.IsValid)
             {
                 if(!string.IsNullOrEmpty(roster) && !string.IsNullOrEmpty(password)){
+                    
                     //Especial user
                     if (roster == "0000" && password == "admin")
                     {
@@ -65,11 +67,11 @@ namespace FridaSchoolWeb.Controllers
                             ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5),
                             IsPersistent = false
                         };
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                        
                         return RedirectToAction("Index","Admin");
                     }else{
                         //Verify if the user exist in the database 
-                    teacher = db.Teachers.FirstOrDefault(p => p.Roaster == roster && p.Password == Encrypt(password));
+                    teacher = db.Teachers.FirstOrDefault(p => p.Roaster == roster && p.Password == _encrypt(password));
                     if (teacher != null)
                     {
                         string role = "Teacher";
@@ -102,8 +104,8 @@ namespace FridaSchoolWeb.Controllers
                     return RedirectToAction("Index","Home", new {message = "Fill all the fields"});
 
                 }
-            }
-           return RedirectToAction("Index","Home"); 
+            } 
+            return RedirectToAction("Index","Home");
 
         }
 
@@ -113,7 +115,7 @@ namespace FridaSchoolWeb.Controllers
         /// <param name="password">the user input</param>
         /// <returns></returns>
 
-         private string Encrypt(string password){
+         private string _encrypt(string password){
             using (SHA256 sha256Hash = SHA256.Create()){
                 byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
                 var sBuilder = new StringBuilder();
@@ -129,12 +131,11 @@ namespace FridaSchoolWeb.Controllers
             }
         }
 
-        [HttpGet]
         /// <summary>
         /// Clean the session and redirect to home page 
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Logout(){
+        public async Task<ActionResult> Logout(){
             await HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index","Home"); 

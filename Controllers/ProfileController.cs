@@ -22,9 +22,13 @@ namespace FridaSchoolWeb.Controllers
         
         public IActionResult Index()
         {
+            if(!HttpContext.User.Identity.IsAuthenticated){
+                return RedirectToAction("Logout","Home");
+            }else{
             string roster = ControllerContext.HttpContext.User.Identity.Name;
             Teacher teacher = db.Teachers.First(t => t.Roaster == roster);
             return View(teacher);
+            }
         }
 
         /// <summary>

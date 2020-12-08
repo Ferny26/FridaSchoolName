@@ -25,16 +25,17 @@ namespace FridaSchoolWeb.Controllers
         public IActionResult Index(string message)
         {
             //If is the special user, redirect to page to crate new teachers
-            if (ControllerContext.HttpContext.User.Identity.Name != "0000")
-            {
-                return RedirectToAction("Index","Home");
-            }
+            if(!HttpContext.User.Identity.IsAuthenticated){
+                return RedirectToAction("Logout","Home");
+            }else{
             IQueryable<Teacher> teachers = db.Teachers;
             return View(teachers);
+            }
         }
         public IActionResult Create(){
             return View();
         }
+
 
         [HttpPost]
 
@@ -92,7 +93,7 @@ namespace FridaSchoolWeb.Controllers
         }
 
         /// <summary>
-        /// Encrypt the password with SHA256 and 
+        /// Encrypt the password with SHA256 
         /// </summary>
         /// <param name="password">the teacher password</param>
         /// <returns></returns>

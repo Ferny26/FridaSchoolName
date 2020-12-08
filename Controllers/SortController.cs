@@ -24,13 +24,15 @@ namespace FridaSchoolWeb.Controllers
             _logger = logger;
             db = injectedContext;
         }
-
         /// <summary>
         /// Show the view with the sort 
         /// </summary>
         /// <param name="message">if some was wrong send a message with the error</param>
         /// <returns>The view with the sort data</returns>
         public ActionResult Index(string message){
+            if(!HttpContext.User.Identity.IsAuthenticated){
+                return RedirectToAction("Logout","Home");
+            }else{
             ViewBag.message = message;
             if (!String.IsNullOrEmpty(message))
             {
@@ -54,8 +56,10 @@ namespace FridaSchoolWeb.Controllers
                         Subject = subject,
                         Group = group
                         });
+                        
                 }
                 return View(sortDetails);
+            }
             }
             
         }
@@ -74,7 +78,7 @@ namespace FridaSchoolWeb.Controllers
             #endregion
             
             #region Variables
-            IQueryable<Teacher> teachers = db.Teachers;
+            List<Teacher> teachers = db.Teachers.ToList();
             IQueryable<Group> groups = db.Groups;
             IQueryable<Subject> subjects = null;
             #endregion

@@ -31,6 +31,9 @@ namespace FridaSchoolWeb.Controllers
         /// <returns>the view with two tables</returns>
         public IActionResult MyGroups()
         {
+            if(!HttpContext.User.Identity.IsAuthenticated){
+                return RedirectToAction("Logout","Home");
+            }else{
             //Verify the user by cookies
             int id = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value);
             IQueryable<Sort> myGroups = db.Sort.Where(a => a.ID_Teacher == id);
@@ -38,10 +41,11 @@ namespace FridaSchoolWeb.Controllers
             //Take the subjects and their corresponded groups
             foreach(var item in myGroups){
                 Group group = db.Groups.First(g => g.ID == item.ID_Group);
-                Subject subject = db.Subjects.First(s => s.ID == item.ID);
+                Subject subject = db.Subjects.First(s => s.ID == item.ID_Subject);
                 asignature.Add((group, subject));
             }
             return View(asignature);
+            }
         }
 
         /// <summary>
@@ -50,8 +54,12 @@ namespace FridaSchoolWeb.Controllers
         /// <returns>The view with the groups</returns>
         public IActionResult Groups()
         {
+            if(!HttpContext.User.Identity.IsAuthenticated){
+                return RedirectToAction("Logout","Home");
+            }else{
             IQueryable<Group> groups = db.Groups;
             return View(groups);
+            }
         }
 
         [HttpPost]
@@ -65,12 +73,12 @@ namespace FridaSchoolWeb.Controllers
         /// <returns></returns>
         public IActionResult Edit( string name, string period, int id)
         {
-                Group group = db.Groups.First(s => s.ID == id);
-                group.Name = name;
-                group.Period = Boolean.Parse(period);
-                group.StablishDates();
-                db.Groups.Update(group);
-                db.SaveChanges();
+            Group group = db.Groups.First(s => s.ID == id);
+            group.Name = name;
+            group.Period = Boolean.Parse(period);
+            group.StablishDates();
+            db.Groups.Update(group);
+            db.SaveChanges();
             return RedirectToAction("Groups","Group");
         }
 
@@ -95,48 +103,37 @@ namespace FridaSchoolWeb.Controllers
         /// <param name="period">period name</param>
         /// <returns>the principal view with all groups</returns>
         public IActionResult Create(string name, string period){
-                Group group = new Group{
-                    Name = name,
-                    Period = Boolean.Parse(period),
-                };
-                group.StablishDates();
-                db.Groups.Add(group);
-                db.SaveChanges();
+            Group group = new Group{
+                Name = name,
+                Period = Boolean.Parse(period),
+            };
+            group.StablishDates();
+            db.Groups.Add(group);
+            db.SaveChanges();
             return RedirectToAction("Groups","Group");
         }
-
 
     /// <summary>
     /// Allow see the specific group too add or remove sibjects 
     /// </summary>
     /// <param name="id">group id</param>
     /// <returns>the view with all groups</returns>
-        public IActionResult Group(int id){
+            public IActionResult Group(int id){
             Group group = db.Groups.First(g => g.ID == id);
             TempData ["ID_Group"] = group.ID;
-            SubjectsGroupList subjects = new SubjectsGroupList();
-            subjects.Group = group;
-            List<GroupSubjects> groupSubjects = db.GroupSubjects.Where(a => a.ID_Group == id).ToList();
+            SubjectsGroupList subjectsPerGroup = new SubjectsGroupList();
+            subjectsPerGroup.Group = group;
             //Take the subjects that the group has
-            foreach (var item in groupSubjects)
-            {
-                subjects.SubjectsPerGroup.Add(db.Subjects.First(x => x.ID == item.ID_Subject));
-            }
-            List<Subject> allSubjects = db.Subjects.ToList();
-            Erased:
+            List<GroupSubjects> groupSubjects = db.GroupSubjects.Where(a => a.ID_Group == id).ToList();
+            List<Subject> subjects = db.Subjects.ToList();
+            subjectsPerGroup.SubjectsPerGroup = subjects.Where(a => groupSubjects.Any(b => b.ID_Subject == a.ID))
+            .OrderBy(a => a.GetTotalHours())
+            .ToList();
             //Take the subjects that the group doesn't has 
-            foreach (var item in allSubjects)
-            {
-                foreach (var item2 in subjects.SubjectsPerGroup)
-                {
-                    if(item2.ID == item.ID){
-                        allSubjects.Remove(item);
-                        goto Erased;
-                    }
-                }
-            }
-            subjects.SubjectsAvaiable = allSubjects;
-            return View(subjects);
+            subjectsPerGroup.SubjectsAvaiable = subjects.Where(a => groupSubjects.Any(b => b.ID_Subject != a.ID))
+            .OrderBy(a => a.GetTotalHours())
+            .ToList();
+            return View(subjectsPerGroup);
         }
 
 
@@ -161,11 +158,14 @@ namespace FridaSchoolWeb.Controllers
         /// </summary>
         /// <param name="id">group id</param>
         /// <returns>the view with all groups</returns>
-        public IActionResult RemoveSubject(int id){
+        public IActionResult RemoveSubject(int? id){
+            if (id != null)
+            {
             int idGroup = (int)TempData["ID_Group"];
             GroupSubjects asignatureRegister = db.GroupSubjects.First(a => a.ID_Subject == id && a.ID_Group == idGroup);
             db.GroupSubjects.Remove(asignatureRegister);
             db.SaveChanges();
+            }
             return RedirectToAction("Groups");
         }
 
